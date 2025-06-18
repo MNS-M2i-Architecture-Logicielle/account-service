@@ -1,6 +1,5 @@
 package org.example.mnb.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +16,5 @@ public class Account {
     
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
-    @JsonBackReference
     private Client client;
 }
