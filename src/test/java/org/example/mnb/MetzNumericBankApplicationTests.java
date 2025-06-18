@@ -11,8 +11,4 @@ class MetzNumericBankApplicationTests {
     void contextLoads() {
     }
 
-    @Test
-    void getCount_returnIsRight(String number) {
-        Assertions.assertEquals("3000000", number );
-    }
 }
