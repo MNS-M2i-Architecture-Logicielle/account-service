@@ -33,7 +33,7 @@ public class DataInitializer implements CommandLineRunner {
         if (accountRepository.count() == 0) {
             Account account = new Account();
             account.setClient(client);
-            account.setBalance(15000);
+            account.setBalance(150000);
             accountRepository.save(account);
         }
 
