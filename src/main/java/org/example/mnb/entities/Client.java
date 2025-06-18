@@ -1,5 +1,6 @@
 package org.example.mnb.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,6 @@ public class Client {
     private String mail;
     
     @OneToMany(mappedBy = "client")
+    @JsonManagedReference
     private List<Account> account;
-    
 }
