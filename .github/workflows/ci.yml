@@ -4,32 +4,12 @@ on:
   push:
     branches:
       - 'feature/**'
-  pull_request:
-    branches: [ Recette ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-    env:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/postgres
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
+#    env:
 #      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
