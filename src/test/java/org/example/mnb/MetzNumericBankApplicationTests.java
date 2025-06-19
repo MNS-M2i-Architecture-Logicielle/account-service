@@ -10,5 +10,4 @@ class MetzNumericBankApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }
