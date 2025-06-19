@@ -10,7 +10,5 @@ public class Bank {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    //public void withdraw(Account accountId, Client clientId, double amount){}
-    //public void deposit(Account accountId, Client clientId, double amount){}
+
 }
