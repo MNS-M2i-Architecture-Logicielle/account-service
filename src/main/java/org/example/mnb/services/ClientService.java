@@ -31,6 +31,10 @@ public class ClientService {
     }
     
     public void createClient(ClientDTO dto) {
+        if (dto == null || dto.getName() == null || dto.getMail() == null) {
+            throw new IllegalArgumentException("ClientDTO is invalid");
+        }
+
         Client client = new Client();
         client.setName(dto.getName());
         client.setMail(dto.getMail());
