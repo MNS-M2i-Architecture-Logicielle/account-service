@@ -1,5 +1,6 @@
 package org.example.mnb.controllers;
 
+import org.example.mnb.dtos.AccountDTO;
 import org.example.mnb.entities.Account;
 import org.example.mnb.services.AccountService;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +43,7 @@ public class AccountController {
     }
     
     @PostMapping("/new")
-    public void createAccount(@RequestBody Account account){
+    public void createAccount(@RequestBody AccountDTO account){
         accountService.createAccount(account);
     }
     

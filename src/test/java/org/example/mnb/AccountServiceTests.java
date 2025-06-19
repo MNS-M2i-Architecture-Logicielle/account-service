@@ -1,5 +1,7 @@
 package org.example.mnb;
 
+import org.example.mnb.dtos.AccountDTO;
+import org.example.mnb.dtos.ClientDTO;
 import org.example.mnb.entities.Account;
 import org.example.mnb.entities.Client;
 import org.example.mnb.exceptions.AccountNotFoundException;
@@ -23,7 +25,7 @@ class AccountServiceTests {
     @BeforeEach
     void setUp() {
         accountRepository = mock(AccountRepository.class);
-        accountService = new AccountService(accountRepository);
+        accountService = mock(AccountService.class);
     }
 
     private Client createMockClient() {
@@ -37,8 +39,8 @@ class AccountServiceTests {
     @Test
     void getAllAccounts_shouldReturnListOfAccounts() {
         Client client = createMockClient();
-        Account account1 = new Account(1L, client, 1000.0);
-        Account account2 = new Account(2L, client, 1500.0);
+        Account account1 = new Account();
+        Account account2 = new Account();
 
         when(accountRepository.findAll()).thenReturn(Arrays.asList(account1, account2));
 
@@ -53,7 +55,7 @@ class AccountServiceTests {
     @Test
     void getAccount_shouldReturnAccountWhenExists() {
         Client client = createMockClient();
-        Account account = new Account(1L, client, 2000.0);
+        Account account = new Account(2000.0);
 
         when(accountRepository.findById(1L)).thenReturn(Optional.of(account));
 
@@ -75,8 +77,9 @@ class AccountServiceTests {
 
     @Test
     void createAccount_shouldSaveAccount() {
-        Client client = createMockClient();
-        Account newAccount = new Account(null, client, 500.0);
+        AccountDTO newAccount = new AccountDTO();
+        newAccount.setClient(new ClientDTO());
+        newAccount.setBalance(500);
 
         accountService.createAccount(newAccount);
 
