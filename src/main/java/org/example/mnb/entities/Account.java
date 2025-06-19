@@ -11,18 +11,13 @@ public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
     private Long id;
 
-    @Getter
-    @Setter
     private double balance = 0;
     
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     @JsonBackReference
-    @Getter
-    @Setter
     private Client client;
 
     public Account(Long id, Client client, double balance) {

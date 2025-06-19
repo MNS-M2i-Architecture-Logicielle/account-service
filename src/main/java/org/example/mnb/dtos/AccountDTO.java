@@ -12,6 +12,7 @@ import lombok.Setter;
  * This DTO shows the informqtions of a bqnk qccount
  */
 @Getter @Setter
+
 public class AccountDTO {
     private Long id;
     private double balance;
