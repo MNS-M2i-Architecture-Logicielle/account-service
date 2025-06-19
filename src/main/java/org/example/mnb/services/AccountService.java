@@ -24,14 +24,11 @@ public class AccountService {
         return accountRepository.findById(id)
                 .orElseThrow(() -> new AccountNotFoundException(id));
     }
-
-    public void createAccount(Account account) {
-        accountRepository.save(account);
-    }
     
-    public double getBalance(Long id) {
-        Account account = accountRepository.findById(id)
-                .orElseThrow(() -> new AccountNotFoundException(id));
-        return account.getBalance();
-    }
-}
+    public void createAccount(AccountDTO dto) {
+        Client client = clientRepository.findById(dto.getClient().getId())
+                .orElseThrow(() -> new ClientNotFoundException(dto.getClient().getId()));
+        
+        Account account = new Account();
+        account.setBalance(dto.getBalance());
+        account.setClient(client);
