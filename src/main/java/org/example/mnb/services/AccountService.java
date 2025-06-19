@@ -30,7 +30,7 @@ public class AccountService {
         return accountRepository.findById(id)
                 .orElseThrow(() -> new AccountNotFoundException(id));
     }
-
+    
     public void createAccount(AccountDTO dto) {
         Client client = clientRepository.findById(dto.getClient().getId())
                 .orElseThrow(() -> new ClientNotFoundException(dto.getClient().getId()));
