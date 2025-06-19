@@ -7,6 +7,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for managing bank accounts.
+ *
+ * Exposes endpoints under the base path "/api/account" to:
+ * - retrieve account information,
+ * - create or update accounts,
+ * - manage balances.
+ */
 @RestController
 @RequestMapping("/api/account")
 public class AccountController {
@@ -21,7 +29,14 @@ public class AccountController {
     public List<Account> getAllAccounts(){
         return accountService.getAllAccounts();
     }
-    
+
+
+    /**
+     * Retrieves the account details for the given ID.
+     *
+     * @param id the ID of the account
+     * @return the account information
+     */
     @GetMapping("/{id}")
     public Account getAccount(@PathVariable Long id){
         return accountService.getAccount(id);
