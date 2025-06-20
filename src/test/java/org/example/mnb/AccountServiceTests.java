@@ -6,9 +6,13 @@ import org.example.mnb.entities.Account;
 import org.example.mnb.entities.Client;
 import org.example.mnb.exceptions.AccountNotFoundException;
 import org.example.mnb.repositories.AccountRepository;
+import org.example.mnb.repositories.ClientRepository;
 import org.example.mnb.services.AccountService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,15 +21,18 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class AccountServiceTests {
 
     private AccountRepository accountRepository;
     private AccountService accountService;
+    private ClientRepository clientRepository;
 
     @BeforeEach
     void setUp() {
         accountRepository = mock(AccountRepository.class);
-        accountService = mock(AccountService.class);
+        clientRepository = mock(ClientRepository.class);
+        accountService = new AccountService(accountRepository, clientRepository); // <-- FIXED: use real service, not mock
     }
 
     private Client createMockClient() {
@@ -38,9 +45,8 @@ class AccountServiceTests {
 
     @Test
     void getAllAccounts_shouldReturnListOfAccounts() {
-        Client client = createMockClient();
-        Account account1 = new Account();
-        Account account2 = new Account();
+        Account account1 = new Account(1L, createMockClient(), 1000.0);
+        Account account2 = new Account(2L, createMockClient(), 1500.0);
 
         when(accountRepository.findAll()).thenReturn(Arrays.asList(account1, account2));
 
@@ -54,8 +60,7 @@ class AccountServiceTests {
 
     @Test
     void getAccount_shouldReturnAccountWhenExists() {
-        Client client = createMockClient();
-        Account account = new Account(2000.0);
+        Account account = new Account(1L, createMockClient(), 2000.0);
 
         when(accountRepository.findById(1L)).thenReturn(Optional.of(account));
 
@@ -77,19 +82,32 @@ class AccountServiceTests {
 
     @Test
     void createAccount_shouldSaveAccount() {
-        AccountDTO newAccount = new AccountDTO();
-        newAccount.setClient(new ClientDTO());
-        newAccount.setBalance(500);
+        AccountDTO accountDTO = new AccountDTO();
+        accountDTO.setBalance(1000);
 
-        accountService.createAccount(newAccount);
+        ClientDTO clientDTO = new ClientDTO();
+        clientDTO.setId(1L);
+        accountDTO.setClient(clientDTO);
 
-        verify(accountRepository, times(1)).save(newAccount);
+        Client client = new Client();
+        client.setId(1L);
+
+        when(clientRepository.findById(1L)).thenReturn(Optional.of(client));
+
+        ArgumentCaptor<Account> accountCaptor = ArgumentCaptor.forClass(Account.class);
+
+        accountService.createAccount(accountDTO);
+
+        verify(accountRepository, times(1)).save(accountCaptor.capture());
+        Account savedAccount = accountCaptor.getValue();
+
+        assertEquals(1000, savedAccount.getBalance());
+        assertEquals(client, savedAccount.getClient());
     }
 
     @Test
     void getBalance_shouldReturnBalanceWhenAccountExists() {
-        Client client = createMockClient();
-        Account account = new Account(1L, client, 3000.0);
+        Account account = new Account(1L, createMockClient(), 3000.0);
 
         when(accountRepository.findById(1L)).thenReturn(Optional.of(account));
 
