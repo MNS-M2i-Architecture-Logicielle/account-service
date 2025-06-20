@@ -11,9 +11,12 @@ import java.util.List;
  * REST controller for managing bank accounts.
  *
  * Exposes endpoints under the base path "/api/account" to:
- * - retrieve account information,
- * - create or update accounts,
- * - manage balances.
+ * - retrieve a list of account,
+ * - retrieve the details of a specific account
+ * - create a new  account,
+ * - retrieve the balance of a given account.
+ *
+ * Each method delegates logic to the AccountService.
  */
 @RestController
 @RequestMapping("/api/account")
@@ -30,23 +33,16 @@ public class AccountController {
         return accountService.getAllAccounts();
     }
 
-
-    /**
-     * Retrieves the account details for the given ID.
-     *
-     * @param id the ID of the account
-     * @return the account information
-     */
     @GetMapping("/{id}")
     public Account getAccount(@PathVariable Long id){
         return accountService.getAccount(id);
     }
-    
+
     @PostMapping("/new")
     public void createAccount(@RequestBody AccountDTO account){
         accountService.createAccount(account);
     }
-    
+
     @GetMapping("/balance/{id}")
     public String getAccountBalance(@PathVariable Long id){
         return "Balance of the account n° " + id + " " + accountService.getBalance(id) + "€";

@@ -12,7 +12,17 @@ import java.util.List;
 
 @Service
 public class ClientService {
-    
+
+    /**
+     * Service class for managing clients.
+     *
+     * Provides methods to:
+     * - retrieve all clients,
+     * - retrieve a client by ID,
+     * - create a new client and automatically associate a new bank account.
+     *
+     * This service interacts with the ClientRepository and AccountRepository to interact with the database
+     */
     private final ClientRepository clientRepository;
     private final AccountRepository accountRepository;
 

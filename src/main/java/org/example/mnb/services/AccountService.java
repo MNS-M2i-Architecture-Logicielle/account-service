@@ -13,7 +13,18 @@ import java.util.List;
 
 @Service
 public class AccountService {
-    
+
+    /**
+     * Service class for managing bank accounts.
+     *
+     * This service provides methods to:
+     * - retrieve all accounts,
+     * - retrieve a specific account by its ID,
+     * - create a new account from an AccountDTO,
+     * - get the balance of a specific account.
+     *
+     * It uses AccountRepository and ClientRepository to interact with the database.
+     */
     private final AccountRepository accountRepository;
     private final ClientRepository clientRepository;
 

@@ -9,7 +9,7 @@ import lombok.Setter;
 /**
  * Data Transfer Object (DTO) representing a bank account.
  *
- * This DTO shows the informqtions of a bqnk qccount
+ * This DTO shows the informqtions of a bqnk qccount,
  */
 @Getter @Setter
 

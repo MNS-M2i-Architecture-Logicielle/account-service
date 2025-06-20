@@ -7,6 +7,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for managing clients.
+ *
+ * Exposes endpoints under the base path "/api/account" to:
+ * - retrieve a list of client,
+ * - retrieve the details of a specific client
+ * - create a new  client,
+ *
+ * Each method delegates logic to the ClientService.
+ */
+
 @RestController
 @RequestMapping("api/client")
 public class ClientController {
