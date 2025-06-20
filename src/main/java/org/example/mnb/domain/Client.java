@@ -7,6 +7,12 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * JPA entity representing a client of the bank.
+ *
+ * A client can own one or more bank accounts. This entity is mapped to the "client" table
+ * in the database and includes basic personal information such as name and email.
+ */
 @Entity
 @Getter
 @Setter
