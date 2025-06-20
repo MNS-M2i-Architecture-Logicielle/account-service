@@ -20,7 +20,7 @@ public class Client {
 
     private String mail;
     
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Account> account;
 }
