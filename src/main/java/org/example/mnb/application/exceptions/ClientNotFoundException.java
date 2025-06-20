@@ -1,4 +1,4 @@
-package org.example.mnb.exceptions;
+package org.example.mnb.application.exceptions;
 
 public class ClientNotFoundException extends RuntimeException {
     public ClientNotFoundException(Long id) {
