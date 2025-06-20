@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"org.example.mnb"},{"l":"org.example.mnb.controllers"},{"l":"org.example.mnb.dtos"},{"l":"org.example.mnb.entities"},{"l":"org.example.mnb.exceptions"},{"l":"org.example.mnb.repositories"},{"l":"org.example.mnb.services"}];updateSearchResults();

@@ -1,0 +1,7 @@
+org.example.mnb
+org.example.mnb.controllers
+org.example.mnb.dtos
+org.example.mnb.entities
+org.example.mnb.exceptions
+org.example.mnb.repositories
+org.example.mnb.services
