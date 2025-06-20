@@ -5,6 +5,15 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * JPA entity representing a bank account in the system.
+ *
+ * Each account is associated with a single client and holds a balance.
+ * This entity is mapped to the "account" table in the database.
+ *
+ * An account cannot exist without being linked to a client.
+ */
+
 @Entity
 @Getter @Setter
 public class Account {
