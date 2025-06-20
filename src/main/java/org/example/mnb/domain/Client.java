@@ -1,4 +1,4 @@
-package org.example.mnb.entities;
+package org.example.mnb.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;

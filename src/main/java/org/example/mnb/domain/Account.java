@@ -1,8 +1,9 @@
-package org.example.mnb.entities;
+package org.example.mnb.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -16,6 +17,7 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter
+@NoArgsConstructor
 public class Account {
 
     @Id
@@ -28,13 +30,4 @@ public class Account {
     @JoinColumn(name = "client_id", nullable = false)
     @JsonBackReference
     private Client client;
-
-    public Account(Long id, Client client, double balance) {
-        this.id = id;
-        this.client = client;
-        this.balance = balance;
-    }
-
-    public Account() {
-    }
 }

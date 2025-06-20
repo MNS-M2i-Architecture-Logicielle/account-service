@@ -1,4 +1,4 @@
-package org.example.mnb.exceptions;
+package org.example.mnb.application.exceptions;
 
 public class AccountNotFoundException extends RuntimeException {
     public AccountNotFoundException(Long id) {
