@@ -10,13 +10,13 @@ import java.util.Optional;
 public interface AccountPersistenceClient {
 
     @GetMapping("/accounts")
-    List<Account> findAll();
+    List<Account> getAllAccounts();
 
     @GetMapping("/accounts/{id}")
-    Optional<Account> findById(@PathVariable("id") Long id);
+    Optional<Account> getAccountById(@PathVariable("id") Long id);
 
     @PostMapping("/accounts")
-    Account save(@RequestBody Account account);
+    Account createAccount(@RequestBody Account account);
 
     @DeleteMapping("/accounts/{id}")
     void deleteById(@PathVariable("id") Long id);

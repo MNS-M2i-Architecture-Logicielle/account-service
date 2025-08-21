@@ -19,17 +19,17 @@ public class AccountRepositoryAdapter implements AccountRepository {
 
     @Override
     public List<Account> findAll() {
-        return persistenceClient.findAll();
+        return persistenceClient.getAllAccounts();
     }
 
     @Override
     public Optional<Account> findById(Long id) {
-        return persistenceClient.findById(id);
+        return persistenceClient.getAccountById(id);
     }
 
     @Override
     public Account save(Account account) {
-        return persistenceClient.save(account);
+        return persistenceClient.createAccount(account);
     }
 
     @Override
