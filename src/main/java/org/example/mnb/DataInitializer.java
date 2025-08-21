@@ -13,8 +13,10 @@ public class DataInitializer implements CommandLineRunner {
         this.clientUseCase = clientUseCase;
     }
 
+    // This code fills the database at start-up but fails the compilation if the persistence-service is not running
+    // Consider commenting the line below to avoid failures if testing without persistence-service running
     @Override
     public void run (String... args) {
-        clientUseCase.createClient("Benjamin Lecossois", "admin@mail.com");
+        //clientUseCase.createClient("Benjamin Lecossois", "admin@mail.com");
     }
 }

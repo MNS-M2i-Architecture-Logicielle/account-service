@@ -2,25 +2,23 @@ package org.example.mnb.adapters.out.account;
 
 import org.example.mnb.domain.Account;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
-@FeignClient(name = "persistence-service", url = "${persistence.service.url}")
+@FeignClient(name = "account-persistence-service", url = "${services.persistence.url}")
 public interface AccountPersistenceClient {
 
-    @GetMapping("/persistence/accounts")
+    @GetMapping("/accounts")
     List<Account> findAll();
 
-    @GetMapping("/persistence/accounts/{id}")
+    @GetMapping("/accounts/{id}")
     Optional<Account> findById(@PathVariable("id") Long id);
 
-    @PostMapping("/persistence/accounts")
+    @PostMapping("/accounts")
     Account save(@RequestBody Account account);
 
-    @DeleteMapping("/persistence/accounts/{id}")
+    @DeleteMapping("/accounts/{id}")
     void deleteById(@PathVariable("id") Long id);
 }
 

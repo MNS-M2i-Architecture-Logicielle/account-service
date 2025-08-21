@@ -7,22 +7,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@FeignClient(name = "persistence-service", url = "${persistence.service.url}/api/client")
+@FeignClient(name = "client-persistence-service", url = "${services.persistence.url}")
 public interface ClientPersistenceClient {
 
-    @GetMapping
+    @GetMapping("/clients")
     List<Client> getAllClients();
 
-    @GetMapping("/{id}")
+    @GetMapping("/clients/{id}")
     Optional<Client> getClientById(@PathVariable("id") Long id);
 
-    @PostMapping
+    @PostMapping("/clients")
     Client createClient(@RequestBody Client client);
 
-    @PutMapping("/{id}")
+    @PutMapping("/clients/{id}")
     Client updateClient(@PathVariable("id") Long id, @RequestBody Client client);
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/clients/{id}")
     void deleteClient(@PathVariable("id") Long id);
 }
 
