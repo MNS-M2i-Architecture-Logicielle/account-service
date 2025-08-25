@@ -1,9 +1,7 @@
 package org.example.mnb.application.services;
 
-import org.example.mnb.adapters.out.account.AccountPersistenceClient;
 import org.example.mnb.adapters.out.client.ClientPersistenceClient;
 import org.example.mnb.application.ports.in.ClientUseCase;
-import org.example.mnb.domain.Account;
 import org.example.mnb.domain.Client;
 import org.example.mnb.application.exceptions.ClientNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +13,10 @@ import java.util.List;
 public class ClientService implements ClientUseCase {
     
     private final ClientPersistenceClient clientRepository;
-    private final AccountPersistenceClient accountRepository;
 
     @Autowired
-    public ClientService(ClientPersistenceClient clientRepository, AccountPersistenceClient accountRepository) {
+    public ClientService(ClientPersistenceClient clientRepository) {
         this.clientRepository = clientRepository;
-        this.accountRepository = accountRepository;
     }
     
     @Override
