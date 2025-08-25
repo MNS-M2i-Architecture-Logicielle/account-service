@@ -17,7 +17,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class AccountServiceTest {
+class AccountServiceTests {
 
     private AccountRepository accountRepository;
     private ClientRepository clientRepository;
