@@ -94,7 +94,7 @@ class ClientServiceTests {
         });
 
         // Act
-        Client result = clientService.createClient("Dana", "dana@example.com");
+        Client result = clientService.createClient("Dana", "dana@example.com", "password");
 
         // Assert
         verify(clientRepository).save(clientCaptor.capture());
@@ -103,6 +103,7 @@ class ClientServiceTests {
         Client captured = clientCaptor.getValue();
         assertEquals("Dana", captured.getName());
         assertEquals("dana@example.com", captured.getMail());
+        assertEquals("password", captured.getPassword());
 
         assertNotNull(result);
         assertEquals("Dana", result.getName());
