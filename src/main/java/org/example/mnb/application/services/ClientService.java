@@ -1,5 +1,6 @@
 package org.example.mnb.application.services;
 
+import org.example.mnb.adapters.out.account.AccountPersistenceClient;
 import org.example.mnb.adapters.out.client.ClientPersistenceClient;
 import org.example.mnb.application.ports.in.ClientUseCase;
 import org.example.mnb.domain.Client;
