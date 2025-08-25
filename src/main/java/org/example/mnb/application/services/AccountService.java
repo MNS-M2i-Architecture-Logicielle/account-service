@@ -20,7 +20,7 @@ public class AccountService implements AccountUseCase {
     private final ClientRepository clientRepository;
 
     @Autowired
-    public AccountService(JpaAccountRepository accountRepository, ClientRepository clientRepository) {
+    public AccountService(AccountRepository accountRepository, ClientRepository clientRepository) {
         this.accountRepository = accountRepository;
         this.clientRepository = clientRepository;
     }
