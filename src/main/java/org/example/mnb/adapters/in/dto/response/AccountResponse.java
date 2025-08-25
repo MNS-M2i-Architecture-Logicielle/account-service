@@ -8,5 +8,4 @@ import lombok.Getter;
 public class AccountResponse {
     private Long id;
     private double balance;
-    private Long clientId;
 }
