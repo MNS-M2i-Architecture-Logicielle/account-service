@@ -1,6 +1,5 @@
 package org.example.mnb;
 
-import org.example.mnb.adapters.out.account.AccountPersistenceClient;
 import org.example.mnb.adapters.out.client.ClientPersistenceClient;
 import org.example.mnb.application.exceptions.ClientNotFoundException;
 import org.example.mnb.application.services.ClientService;
@@ -16,16 +15,14 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ClientServiceTest {
+class ClientServiceTests {
 
     private ClientPersistenceClient clientPersistenceClient;
-    private AccountPersistenceClient accountPersistenceClient;
     private ClientService clientService;
 
     @BeforeEach
     void setUp() {
         clientPersistenceClient = mock(ClientPersistenceClient.class);
-        accountPersistenceClient = mock(AccountPersistenceClient.class);
         clientService = new ClientService(clientPersistenceClient);
     }
 
