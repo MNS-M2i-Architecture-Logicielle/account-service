@@ -1,8 +1,8 @@
 package org.example.mnb.adapters.in;
 
+import org.example.mnb.adapters.in.dto.request.AccountCreationRequest;
 import org.example.mnb.application.ports.in.AccountUseCase;
 import org.example.mnb.domain.Account;
-import org.example.mnb.adapters.in.dto.request.AccountCreationRequest;
 import org.example.mnb.adapters.in.dto.response.AccountResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,8 +48,8 @@ public class AccountController {
     }
 
     @PutMapping("/{id}")
-    public AccountResponse updateAccount(@PathVariable Long id, @RequestBody double newBalance) {
-        Account updatedAccount = accountUseCase.updateAccount(id, newBalance);
+    public AccountResponse updateAccount(@PathVariable Long id, @RequestBody double balance) {
+        Account updatedAccount = accountUseCase.updateAccount(id, balance);
         return mapToAccountResponse(updatedAccount);
     }
 
@@ -62,8 +62,7 @@ public class AccountController {
     private AccountResponse mapToAccountResponse(Account account) {
         return new AccountResponse(
                 account.getId(),
-                account.getBalance(),
-                account.getClient().getId()
+                account.getBalance()
         );
     }
 }

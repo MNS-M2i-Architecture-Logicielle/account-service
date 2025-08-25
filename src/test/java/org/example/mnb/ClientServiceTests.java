@@ -1,16 +1,12 @@
 package org.example.mnb;
 
+import org.example.mnb.adapters.out.client.ClientPersistenceClient;
 import org.example.mnb.application.exceptions.ClientNotFoundException;
-import org.example.mnb.application.ports.out.ClientRepository;
-import org.example.mnb.application.services.AccountService;
 import org.example.mnb.application.services.ClientService;
 import org.example.mnb.domain.Client;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,125 +15,121 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
 class ClientServiceTests {
 
-    @Mock
-    private ClientRepository clientRepository;
-
-    @Mock
-    private AccountService accountService;
-
-    @InjectMocks
+    private ClientPersistenceClient clientPersistenceClient;
     private ClientService clientService;
 
-    @Test
-    void getAllClients_shouldReturnListOfClients() {
-        Client client1 = new Client();
-        client1.setId(1L);
-        client1.setName("Alice");
-        client1.setMail("alice@example.com");
-
-        Client client2 = new Client();
-        client2.setId(2L);
-        client2.setName("Bob");
-        client2.setMail("bob@example.com");
-
-        when(clientRepository.findAll()).thenReturn(Arrays.asList(client1, client2));
-
-        List<Client> result = clientService.getAllClients();
-
-        assertEquals(2, result.size());
-        assertEquals("Alice", result.get(0).getName());
-        assertEquals("Bob", result.get(1).getName());
-        verify(clientRepository, times(1)).findAll();
+    @BeforeEach
+    void setUp() {
+        clientPersistenceClient = mock(ClientPersistenceClient.class);
+        clientService = new ClientService(clientPersistenceClient);
     }
 
     @Test
-    void getClientById_shouldReturnClient_whenExists() {
+    void getAllClients_ShouldReturnClients() {
+        // Arrange
+        Client c1 = new Client();
+        c1.setId(1L);
+        c1.setName("Alice");
+
+        Client c2 = new Client();
+        c2.setId(2L);
+        c2.setName("Bob");
+
+        when(clientPersistenceClient.getAllClients()).thenReturn(Arrays.asList(c1, c2));
+
+        // Act
+        List<Client> result = clientService.getAllClients();
+
+        // Assert
+        assertEquals(2, result.size());
+        assertEquals("Alice", result.get(0).getName());
+        verify(clientPersistenceClient, times(1)).getAllClients();
+    }
+
+    @Test
+    void getClientById_WhenExists_ShouldReturnClient() {
+        // Arrange
         Client client = new Client();
         client.setId(1L);
         client.setName("Charlie");
-        client.setMail("charlie@example.com");
 
-        when(clientRepository.findById(1L)).thenReturn(Optional.of(client));
-
-        Client result = clientService.getClientById(1L);
-
-        assertNotNull(result);
-        assertEquals("Charlie", result.getName());
-        assertEquals("charlie@example.com", result.getMail());
-    }
-
-    @Test
-    void getClientById_shouldThrow_whenClientDoesNotExist() {
-        when(clientRepository.findById(99L)).thenReturn(Optional.empty());
-
-        assertThrows(ClientNotFoundException.class, () -> clientService.getClientById(99L));
-        verify(clientRepository).findById(99L);
-    }
-
-    @Test
-    void createClient_shouldSaveClientAndCreateAccount() {
-        // Arrange
-        ArgumentCaptor<Client> clientCaptor = ArgumentCaptor.forClass(Client.class);
-
-        Client savedClient = new Client();
-        savedClient.setId(5L);
-        savedClient.setName("Dana");
-        savedClient.setMail("dana@example.com");
-
-        when(clientRepository.save(any(Client.class))).thenAnswer(invocation -> {
-            Client c = invocation.getArgument(0);
-            c.setId(5L); // Simulate generated ID
-            return c;
-        });
+        when(clientPersistenceClient.getClientById(1L)).thenReturn(Optional.of(client));
 
         // Act
-        Client result = clientService.createClient("Dana", "dana@example.com");
+        Client result = clientService.getClientById(1L);
 
         // Assert
-        verify(clientRepository).save(clientCaptor.capture());
-        verify(accountService).createAccount(eq(5L), eq(0.0));
-
-        Client captured = clientCaptor.getValue();
-        assertEquals("Dana", captured.getName());
-        assertEquals("dana@example.com", captured.getMail());
-
-        assertNotNull(result);
-        assertEquals("Dana", result.getName());
-        assertEquals("dana@example.com", result.getMail());
-        assertEquals(5L, result.getId());
+        assertEquals("Charlie", result.getName());
+        verify(clientPersistenceClient, times(1)).getClientById(1L);
     }
 
     @Test
-    void updateClient_shouldUpdateClientInfo() {
+    void getClientById_WhenNotExists_ShouldThrowException() {
+        // Arrange
+        when(clientPersistenceClient.getClientById(99L)).thenReturn(Optional.empty());
+
+        // Act + Assert
+        assertThrows(ClientNotFoundException.class, () -> clientService.getClientById(99L));
+        verify(clientPersistenceClient, times(1)).getClientById(99L);
+    }
+
+    @Test
+    void createClient_ShouldSaveClientAndCreateAccount() {
+        // Arrange
+        Client client = new Client();
+        client.setId(1L);
+        client.setName("Daisy");
+        client.setMail("daisy@mail.com");
+
+        when(clientPersistenceClient.createClient(any(Client.class))).thenReturn(client);
+
+        // Act
+        Client result = clientService.createClient("Daisy", "daisy@mail.com", "root");
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("Daisy", result.getName());
+
+        // Capture client argument
+        ArgumentCaptor<Client> clientCaptor = ArgumentCaptor.forClass(Client.class);
+        verify(clientPersistenceClient, times(1)).createClient(clientCaptor.capture());
+        assertEquals("Daisy", clientCaptor.getValue().getName(), client.getPassword());
+    }
+
+    @Test
+    void updateClient_ShouldUpdateAndReturnUpdatedClient() {
         // Arrange
         Client existing = new Client();
-        existing.setId(10L);
-        existing.setName("Old Name");
+        existing.setId(1L);
+        existing.setName("OldName");
         existing.setMail("old@mail.com");
 
         Client updated = new Client();
-        updated.setName("New Name");
+        updated.setName("NewName");
         updated.setMail("new@mail.com");
 
-        when(clientRepository.findById(10L)).thenReturn(Optional.of(existing));
-        when(clientRepository.save(any(Client.class))).thenReturn(existing);
+        when(clientPersistenceClient.getClientById(1L)).thenReturn(Optional.of(existing));
+        when(clientPersistenceClient.createClient(any(Client.class))).thenReturn(existing);
 
         // Act
-        Client result = clientService.updateClient(10L, updated);
+        Client result = clientService.updateClient(1L, updated);
 
         // Assert
-        verify(clientRepository).save(existing);
-        assertEquals("New Name", result.getName());
+        assertEquals("NewName", result.getName());
         assertEquals("new@mail.com", result.getMail());
+
+        verify(clientPersistenceClient, times(1)).getClientById(1L);
+        verify(clientPersistenceClient, times(1)).createClient(existing);
     }
 
-//    Client ne se supprime pas tant qu'il a un compte, pas encore codé
-//    @Test
-//    void deleteClient_shouldCallRepositoryDeleteById() {
-//        clientService.deleteClient(123L);
-//        verify(clientRepository, times(1)).deleteById(123L);
-//    }
+    @Test
+    void deleteClient_ShouldCallDelete() {
+        // Act
+        clientService.deleteClient(1L);
+
+        // Assert
+        verify(clientPersistenceClient, times(1)).deleteClient(1L);
+    }
 }
