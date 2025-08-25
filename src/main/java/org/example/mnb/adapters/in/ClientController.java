@@ -38,7 +38,7 @@ public class ClientController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ClientResponse createClient(@RequestBody ClientCreationRequest request) {
-        Client createdClient = clientUseCase.createClient(request.getName(), request.getMail());
+        Client createdClient = clientUseCase.createClient(request.getName(), request.getMail(), request.getPassword());
         return mapToClientResponse(createdClient);
     }
     

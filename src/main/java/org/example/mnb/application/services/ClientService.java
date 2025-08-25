@@ -15,12 +15,12 @@ import java.util.List;
 public class ClientService implements ClientUseCase {
     
     private final ClientPersistenceClient clientRepository;
-    private final AccountPersistenceClient accountService;
+    private final AccountPersistenceClient accountRepository;
 
     @Autowired
-    public ClientService(ClientPersistenceClient clientRepository, AccountPersistenceClient accountService) {
+    public ClientService(ClientPersistenceClient clientRepository, AccountPersistenceClient accountRepository) {
         this.clientRepository = clientRepository;
-        this.accountService = accountService;
+        this.accountRepository = accountRepository;
     }
     
     @Override
@@ -35,18 +35,13 @@ public class ClientService implements ClientUseCase {
     }
     
     @Override
-    public Client createClient(String name, String mail) {
+    public Client createClient(String name, String mail, String password) {
         Client client = new Client();
         client.setName(name);
         client.setMail(mail);
-        clientRepository.createClient(client);
+        client.setPassword(password);
 
-        // Création d’un compte lié au nouveau client
-        Account account = new Account();
-        account.setClient(client);
-        accountService.createAccount(account);
-
-        return client;
+        return clientRepository.createClient(client);
     }
     
     @Override

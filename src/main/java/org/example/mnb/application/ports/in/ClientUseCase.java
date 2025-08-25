@@ -7,7 +7,7 @@ import java.util.List;
 public interface ClientUseCase {
     List<Client> getAllClients();
     Client getClientById(Long id);
-    Client createClient(String name, String mail);
+    Client createClient(String name, String mail, String password);
     Client updateClient(Long id, Client updatedClient);
     void deleteClient(Long id);
 }
